@@ -38,7 +38,7 @@ namespace L5R_API.Controllers
 
         }
 
-        [Route("api/Card/all/id")]
+        [Route("api/Card/all/{id:string}")]//{id:string}/{type:string}
         [HttpGet]//come between for multiple
         public List<string> GetCardIds()
         {
