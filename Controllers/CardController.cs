@@ -8,6 +8,9 @@ using System.Web.Http;
 
 namespace L5R_API.Controllers
 {
+    /// <summary>
+    /// This Controller is for the L5R cards.
+    /// </summary>
     public class CardController : ApiController
     {
         List<Card> cards = new List<Card>();
@@ -38,7 +41,12 @@ namespace L5R_API.Controllers
 
         }
 
-        [Route("api/Card/all/{id:string}")]//{id:string}/{type:string}
+        /// <summary>
+        /// Gets a list of the ids from the cardslist
+        /// </summary>
+        /// <returns>A list of ids</returns>
+
+        [Route("api/Card/all/{id}")]//{id}/{type}//string is assumed type
         [HttpGet]//come between for multiple
         public List<string> GetCardIds()
         {

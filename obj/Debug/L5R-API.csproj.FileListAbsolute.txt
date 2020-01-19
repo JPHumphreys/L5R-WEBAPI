@@ -80,3 +80,4 @@ C:\Users\J\source\repos\L5R-API\obj\Debug\L5R-API.csproj.CoreCompileInputs.cache
 C:\Users\J\source\repos\L5R-API\obj\Debug\L5R-API.csproj.CopyComplete
 C:\Users\J\source\repos\L5R-API\obj\Debug\L5R-API.dll
 C:\Users\J\source\repos\L5R-API\obj\Debug\L5R-API.pdb
+C:\Users\J\source\repos\L5R-API\bin\Documentation.xml
