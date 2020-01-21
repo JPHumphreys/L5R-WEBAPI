@@ -20,7 +20,7 @@ namespace L5R_API.Controllers
         // GET: api/User
         public List<User> Get()
         {
-            _con = new SqlConnection("data source=JPHCODE-IO; Initial catalog=l5r; user id=JPHCODE-IO/J; password= ;");
+            _con = new SqlConnection("Server= localhost; Database= l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
             var query = "select * from Users";
             _adapter = new SqlDataAdapter
