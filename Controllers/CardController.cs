@@ -80,7 +80,7 @@ namespace L5R_API.Controllers
 
         }
 
-        // PUT: api/Card/5
+        // PUT: api/Card/id(string)
         public void Put(string id, [FromBody]string value)
         {
         }
