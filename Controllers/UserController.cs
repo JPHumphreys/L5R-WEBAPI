@@ -1,5 +1,8 @@
-﻿using System;
+﻿using L5R_API.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,10 +12,33 @@ namespace L5R_API.Controllers
 {
     public class UserController : ApiController
     {
+
+        //declare sql connection
+        private SqlConnection _con;
+        private SqlDataAdapter _adapter;
+
         // GET: api/User
-        public IEnumerable<string> Get()
+        public List<User> Get()
         {
-            return new string[] { "value1", "value2" };
+            _con = new SqlConnection("data source=JPHCODE-IO; Initial catalog=l5r; user id=JPHCODE-IO/J; password= ;");
+            DataTable _dt = new DataTable();
+            var query = "select * from Users";
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<User> users = new List<User>(_dt.Rows.Count);
+
+            if(_dt.Rows.Count > 0)
+            {
+                foreach(DataRow userRecord in _dt.Rows)
+                {
+                    users.Add(new ReadUser(userRecord));
+                }
+            }
+
+            return users;
         }
 
         // GET: api/User/5
