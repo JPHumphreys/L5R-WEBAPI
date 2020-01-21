@@ -7,9 +7,9 @@ namespace L5R_API.Models
 {
     public class Deck
     {
-        private string userId { get; set; } = "";
-        private string cardId { get; set; } = "";
-        private string name { get; set; } = "";
-        private string quantity { get; set; } = "";
+        public string userId { get; set; } = "";
+        public string cardId { get; set; } = "";
+        public string name { get; set; } = "";
+        public string quantity { get; set; } = "";
     }
 }

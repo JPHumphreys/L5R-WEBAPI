@@ -7,7 +7,7 @@ namespace L5R_API.Models
 {
     public class User
     {
-        private string username { get; set; } = "";
-        private string password { get; set; } = "";
+        public string username { get; set; } = "";
+        public string password { get; set; } = "";
     }
 }
