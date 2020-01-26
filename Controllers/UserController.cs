@@ -89,14 +89,45 @@ namespace L5R_API.Controllers
 
         }
 
-        // PUT: api/User/5
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/User/name
+        public string Put(string id, [FromBody]createUser value)
         {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "UPDATE Users SET username=@username,password=@password WHERE username=" + id;
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            insertCommand.Parameters.AddWithValue("@username", value.username);
+            insertCommand.Parameters.AddWithValue("@password", value.password);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if (result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
 
         // DELETE: api/User/5
-        public void Delete(int id)
+        public string Delete(string id)
         {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "DELETE FROM Users WHERE username=" + id;
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if (result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
     }
 }
