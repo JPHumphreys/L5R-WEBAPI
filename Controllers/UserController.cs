@@ -20,15 +20,15 @@ namespace L5R_API.Controllers
         // GET: api/User
         public List<User> Get()
         {
-            _con = new SqlConnection("Server= localhost; Database= l5r; Integrated Security=True;");
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "select * from Users";
+            var query = "SELECT * FROM Users";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
             };
             _adapter.Fill(_dt);
-            List<User> users = new List<User>(_dt.Rows.Count);
+            List<User> users = new List<Models.User>(_dt.Rows.Count);
 
             if(_dt.Rows.Count > 0)
             {
