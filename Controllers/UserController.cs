@@ -20,15 +20,15 @@ namespace L5R_API.Controllers
         // GET: api/User
         public List<User> Get()
         {
-            _con = new SqlConnection("Server= localhost; Database= l5r; Integrated Security=True;");
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "select * from Users";
+            var query = "SELECT * FROM Users";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
             };
             _adapter.Fill(_dt);
-            List<User> users = new List<User>(_dt.Rows.Count);
+            List<User> users = new List<Models.User>(_dt.Rows.Count);
 
             if(_dt.Rows.Count > 0)
             {
@@ -41,25 +41,93 @@ namespace L5R_API.Controllers
             return users;
         }
 
-        // GET: api/User/5
-        public string Get(int id)
+        // GET: api/User/cardname
+        public List<User> Get(string id)
         {
-            return "value";
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            var query = "SELECT * FROM Users WHERE username=" + id;
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<User> users = new List<Models.User>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow userRecord in _dt.Rows)
+                {
+                    users.Add(new ReadUser(userRecord));
+                }
+            }
+
+            return users;
         }
 
         // POST: api/User
-        public void Post([FromBody]string value)
+        public string Post([FromBody]createUser value)
         {
+
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "INSERT INTO Users (username, password) VALUES(@username, @password)";
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            insertCommand.Parameters.AddWithValue("@username", value.username);
+            insertCommand.Parameters.AddWithValue("@password", value.password);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if(result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
+
         }
 
-        // PUT: api/User/5
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/User/name
+        public string Put(string id, [FromBody]createUser value)
         {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "UPDATE Users SET username=@username,password=@password WHERE username=" + id;
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            insertCommand.Parameters.AddWithValue("@username", value.username);
+            insertCommand.Parameters.AddWithValue("@password", value.password);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if (result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
 
         // DELETE: api/User/5
-        public void Delete(int id)
+        public string Delete(string id)
         {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "DELETE FROM Users WHERE username=" + id;
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if (result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
     }
 }
