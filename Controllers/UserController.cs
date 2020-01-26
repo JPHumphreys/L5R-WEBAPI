@@ -46,7 +46,7 @@ namespace L5R_API.Controllers
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM Users WHERE username=" + id;
+            var query = "SELECT * FROM Users WHERE username= '" + id + "'";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
@@ -93,7 +93,7 @@ namespace L5R_API.Controllers
         public string Put(string id, [FromBody]createUser value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
-            var query = "UPDATE Users SET username=@username,password=@password WHERE username=" + id;
+            var query = "UPDATE Users SET username=@username,password=@password WHERE username= '" + id + "'";
             SqlCommand insertCommand = new SqlCommand(query, _con);
 
             insertCommand.Parameters.AddWithValue("@username", value.username);
@@ -115,7 +115,7 @@ namespace L5R_API.Controllers
         public string Delete(string id)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
-            var query = "DELETE FROM Users WHERE username=" + id;
+            var query = "DELETE FROM Users WHERE username= '" + id + "'";
             SqlCommand insertCommand = new SqlCommand(query, _con);
 
             _con.Open();
