@@ -58,11 +58,65 @@ namespace L5R_API.Controllers
             return cards;
         }
 
-        // GET: api/Card/id(string)
-        //public Card Get(string id)
-        //{
-            
-        //}
+        // GET: api/Card/clan/side/type
+        [Route("api/Card/{clan}/{side}/{type}")]
+        public List<Card> Get(string clan, string side, string type)
+        {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+
+            var _clan = "";
+            var _side = "";
+            var _type = "";
+            int counter = 0;
+
+            if(clan != "ns")
+            {
+                _clan = "clan= '" + clan + "'";
+                counter++;
+            }
+            if(side != "ns")
+            {
+                if(counter > 0)
+                {
+                    _side = "AND side= '" + side + "'";
+                }
+                else
+                {
+                    _side = "side = '" + side + "'";
+                }
+                counter++;
+            }
+            if(type != "ns")
+            {
+                if (counter > 0)
+                {
+                    _type = " AND typeof= '" + type + "'";
+                }
+                else
+                {
+                    _type = "typeof = '" + type + "'";
+                }
+            }
+
+            var query = "SELECT * FROM Cards WHERE " + _clan + _side + _type;
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<Card> cards = new List<Models.Card>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow cardRecord in _dt.Rows)
+                {
+                    cards.Add(new ReadCard(cardRecord));
+                }
+            }
+
+            return cards;
+        }
 
     }
 }
