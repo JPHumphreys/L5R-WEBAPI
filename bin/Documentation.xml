@@ -486,12 +486,6 @@
             This Controller is for the L5R cards.
             </summary>
         </member>
-        <member name="M:L5R_API.Controllers.CardController.GetCardIds">
-            <summary>
-            Gets a list of the ids from the cardslist
-            </summary>
-            <returns>A list of ids</returns>
-        </member>
         <member name="T:L5R_API.Models.Card">
             <summary>
             Represents one card within the database
@@ -499,25 +493,138 @@
         </member>
         <member name="P:L5R_API.Models.Card.id">
             <summary>
-            Card ID in a form of "cardfirstname-cardothernames-n-n-n"
-            Eg. "shrewd-yasuki", "yorimoto", "hiru-mori-toride-unicorn"
+            This is primary key that is used in conjunction with the ratings table.
+            This is the ID of the card that is in the context of name-name. EG: shrewd yasuki = shrewd-yasuki
+            Any apostrophes are replaced with dashes. EG: Mountain's Anvil Castle = mountain-s-anvil-castle
             </summary>
         </member>
         <member name="P:L5R_API.Models.Card.clan">
             <summary>
-            This is the card clan affiliation
+            This is the clan that the card corresponds to: this includes the main clans and neutral type
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.cost">
+            <summary>
+            This is the card cost in fate.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.decklimit">
+            <summary>
+            How many of the cards are legally allowed to be in the decks.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.element">
+            <summary>
+            This is used to categorize provinces into the different types
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.fate">
+            <summary>
+            This is how much fate a stronghold will yeild a turn.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.glory">
+            <summary>
+            This is the glory value of a card (if it has one)
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.honor">
+            <summary>
+            This is how much honor you will start the game with.
+            This is used for stronghold cards only.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.imglocation">
+            <summary>
+            This is the image location from the official l5r website.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.influencecost">
+            <summary>
+            This is the influence cost that is related to the conflict card. (if it has one)
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.influencepool">
+            <summary>
+            This is the influence pool that your stronghold provides.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.isrestricted">
+            <summary>
+            This indicates whether the card is restricted
+            The restricted list is derived from the official rules guide.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.military">
+            <summary>
+            This is the military value on the character card.
+            if not applicable - put a 0.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.militarybonus">
+            <summary>
+            This is the added bonus an attachment provides a character.
+            if not applicable - put a NULL
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.name">
+            <summary>
+            This is the name of the card as written on the card
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.political">
+            <summary>
+            This is the political value on the character
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.politicalbonus">
+            <summary>
+            This is the political bonus an attachment provides a character.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.rolerestriction">
+            <summary>
+            This indicates whether a card is restricted to 'KEEPER' or 'SEEKER' - null if not
             </summary>
         </member>
         <member name="P:L5R_API.Models.Card.side">
             <summary>
-            This is the deck side in which the card is legally played
+            This indicates which deck the card lies within.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.strength">
+            <summary>
+            This indicates the strength of the province.
+            IE how much above your opponent you need to be to break the province.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.strengthbonus">
+            <summary>
+            This applies to stronghold provinces.
+            It indicates the added strength bonus it provides on top of the province it is above.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.text">
+            <summary>
+            This is the card text
             </summary>
         </member>
         <member name="P:L5R_API.Models.Card.type">
             <summary>
-            This is the legal card type
-            Eg. "event","attachment"
+            This is the card type.
             </summary>
+        </member>
+        <member name="P:L5R_API.Models.Card.unicity">
+            <summary>
+            This indicates whether the card is unique or not.
+            TRUE / FALSE
+            </summary>
+        </member>
+        <member name="M:L5R_API.Models.ReadCard.#ctor(System.Data.DataRow)">
+            <summary>
+            This reads the rows and places the values within the card object.
+            </summary>
+            <param name="row"></param>
         </member>
     </members>
 </doc>
