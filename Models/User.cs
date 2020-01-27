@@ -26,7 +26,7 @@ namespace L5R_API.Models
         }
 
         //add variables here
-        public string username { get; set; } = "";
-        public string password { get; set; } = "";
+        //public string username { get; set; } = "";
+        //public string password { get; set; } = "";
     }
 }

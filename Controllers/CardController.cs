@@ -35,6 +35,10 @@ namespace L5R_API.Controllers
 
 
         // GET: api/Card
+        /// <summary>
+        /// This is a query to return all the cards in the DB
+        /// </summary>
+        /// <returns></returns>
         public List<Card> Get()
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
@@ -59,6 +63,13 @@ namespace L5R_API.Controllers
         }
 
         // GET: api/Card/clan/side/type
+        /// <summary>
+        ///     This is used for the cards.html page of the website
+        /// </summary>
+        /// <param name="clan">This is the clan of the card</param>
+        /// <param name="side">This is the deck of the card</param>
+        /// <param name="type">This is the type of the card</param>
+        /// <returns>List of cards that match the clan,side and type of the api query</returns>
         [Route("api/Card/{clan}/{side}/{type}")]
         public List<Card> Get(string clan, string side, string type)
         {
@@ -100,6 +111,7 @@ namespace L5R_API.Controllers
             }
 
             var query = "SELECT * FROM Cards WHERE " + _clan + _side + _type;
+
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
