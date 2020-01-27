@@ -12,7 +12,7 @@ namespace L5R_API.Models
         public string password { get; set; } = "";
     }
 
-    public class createUser : User
+    public class CreateUser : User
     {
 
     }

@@ -66,7 +66,7 @@ namespace L5R_API.Controllers
         }
 
         // POST: api/User
-        public string Post([FromBody]createUser value)
+        public string Post([FromBody]CreateUser value)
         {
 
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
@@ -90,7 +90,7 @@ namespace L5R_API.Controllers
         }
 
         // PUT: api/User/name
-        public string Put(string id, [FromBody]createUser value)
+        public string Put(string id, [FromBody]CreateUser value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             var query = "UPDATE Users SET username=@username,password=@password WHERE username= '" + id + "'";

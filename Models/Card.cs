@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -27,6 +28,11 @@ namespace L5R_API.Models
         /// </summary>
         public int cost { get; set; } = 0;
 
+
+        /// <summary>
+        /// How many of the cards are legally allowed to be in the decks.
+        /// </summary>
+        public int decklimit { get; set; } = 0;
         /// <summary>
         /// This is used to categorize provinces into the different types
         /// </summary>
@@ -85,6 +91,22 @@ namespace L5R_API.Models
         public string militarybonus { get; set; } = "";
 
         /// <summary>
+        /// This is the name of the card as written on the card
+        /// </summary>
+        public string name { get; set; } = "";
+
+
+        /// <summary>
+        /// This is the political value on the character
+        /// </summary>
+        public int political { get; set; } = 0;
+
+        /// <summary>
+        /// This is the political bonus an attachment provides a character.
+        /// </summary>
+        public string politicalbonus { get; set; } = "";
+
+        /// <summary>
         /// This indicates whether a card is restricted to 'KEEPER' or 'SEEKER' - null if not
         /// </summary>
         public string rolerestriction { get; set; } = "";
@@ -123,4 +145,40 @@ namespace L5R_API.Models
         public string unicity { get; set; } = "";
 
     }
+
+    public class ReadCard : Card
+    {
+        /// <summary>
+        /// This reads the rows and places the values within the card object.
+        /// </summary>
+        /// <param name="row"></param>
+        public ReadCard(DataRow row)
+        {
+            id = row["id"].ToString();//primary key
+            clan = row["clan"].ToString();
+            cost = Convert.ToInt32(row["cost"]);
+            decklimit = Convert.ToInt32(row["decklimit"]);
+            element = row["element"].ToString();
+            fate = Convert.ToInt32(row["fate"]);
+            glory = Convert.ToInt32(row["glory"]);
+            honor = Convert.ToInt32(row["honor"]);
+            imglocation = row["imglocation"].ToString();
+            influencecost = Convert.ToInt32(row["influencecost"]);
+            influencepool = Convert.ToInt32(row["influencepool"]);
+            isrestricted = row["isrestricted"].ToString();
+            military = Convert.ToInt32(row["military"]);
+            militarybonus = row["militarybonus"].ToString();
+            name = row["name"].ToString();
+            political = Convert.ToInt32(row["political"]);
+            politicalbonus = row["politicalbonus"].ToString();
+            rolerestriction = row["rolerestriction"].ToString();
+            side = row["side"].ToString();
+            strength = Convert.ToInt32(row["strength"]);
+            strengthbonus = row["strengthbonus"].ToString();
+            text = row["text"].ToString();
+            type = row["typeof"].ToString();
+            unicity = row["unicity"].ToString();
+        }
+    }
+
 }
