@@ -48,8 +48,34 @@ namespace L5R_API.Controllers
         }
 
         // POST: api/UserRating
-        public void Post([FromBody]string value)
+        /// <summary>
+        /// This creates a new user rating.
+        /// It containts the username which is used to check if they have voted on the card before
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>true/false</returns>
+        public string Post([FromBody]CreateUserRating value)
         {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "INSERT INTO UserRatings (username, id, clan, rating) VALUES(@username, @id, @clan, @rating)";
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            insertCommand.Parameters.AddWithValue("@username", value.username);
+            insertCommand.Parameters.AddWithValue("@id", value.id);
+            insertCommand.Parameters.AddWithValue("@clan", value.clan);
+            insertCommand.Parameters.AddWithValue("@rating", value.rating);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
 
         // PUT: api/UserRating/5
