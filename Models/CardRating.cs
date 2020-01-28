@@ -6,7 +6,7 @@ using System.Web;
 
 namespace L5R_API.Models
 {
-    public class Rating
+    public class CardRating
     {
         /// <summary>
         /// This is the id that is shared with card id's - this is a foreign key
@@ -78,14 +78,23 @@ namespace L5R_API.Models
         public int totalvotesunicorn { get; set; } = 0;
     }
 
-    public class CreateRating : Rating
+    public class CreateCardRating : CardRating
     {
 
     }
 
-    public class ReadRating : Rating
+    /*
+     * 
+     * 
+     SELECT clan, imglocation, side, typeof, overallrating
+     FROM Cards
+     INNER JOIN Ratings ON Cards.id=Ratings.id; 
+     * 
+     */
+
+    public class ReadCardRating : CardRating
     {
-        public ReadRating(DataRow row)
+        public ReadCardRating(DataRow row)
         {
             id = row["id"].ToString();
 
