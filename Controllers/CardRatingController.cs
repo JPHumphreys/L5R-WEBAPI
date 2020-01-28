@@ -41,15 +41,16 @@ namespace L5R_API.Controllers
             return ratings;
         }
 
-        // GET: api/CardRating/5
-        public string Get(int id)
+        // GET: api/CardRating/id
+        public string Get(string id)
         {
             return "value";
         }
 
-        // PUT: api/CardRating/5
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/CardRating/id
+        public void Put(string id, [FromBody]CreateCardRating value)
         {
+
         }
 
     }

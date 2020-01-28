@@ -70,6 +70,18 @@ namespace L5R_API.Controllers
 
             if (result > 0)
             {
+                if(usernameCheck(value.username) == "true")
+                {
+                    //username already exists on that card rating
+                    //overwrite rating
+                    overwriteRating(value.id, value.clan, value.rating);
+                }
+                else
+                {
+                    //username does not exist on that card rating
+                    //add rating
+                    addRating(value.id, value.clan, value.rating);
+                }
                 return "true";
             }
             else
@@ -86,6 +98,21 @@ namespace L5R_API.Controllers
         // DELETE: api/UserRating/5
         public void Delete(int id)
         {
+        }
+
+        static void addRating(string id, string clan, float rating)
+        {
+
+        }
+
+        static void overwriteRating(string id, string clan, float rating)
+        {
+
+        }
+
+        static string usernameCheck(string username)
+        {
+            return "true";
         }
     }
 }
