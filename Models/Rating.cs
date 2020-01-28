@@ -83,6 +83,15 @@ namespace L5R_API.Models
 
     }
 
+    /*
+     * 
+     * 
+     SELECT clan, imglocation, side, typeof, overallrating
+     FROM Cards
+     INNER JOIN Ratings ON Cards.id=Ratings.id; 
+     * 
+     */
+
     public class ReadRating : Rating
     {
         public ReadRating(DataRow row)

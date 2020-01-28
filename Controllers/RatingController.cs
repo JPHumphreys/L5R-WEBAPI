@@ -1,5 +1,8 @@
-﻿using System;
+﻿using L5R_API.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,31 +12,51 @@ namespace L5R_API.Controllers
 {
     public class RatingController : ApiController
     {
+        //declare sql connection
+        private SqlConnection _con;
+        private SqlDataAdapter _adapter;
+
         // GET: api/Rating
-        public IEnumerable<string> Get()
+        public List<Rating> Get()
         {
-            return new string[] { "value1", "value2" };
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            var query = "SELECT * FROM CardRatings";
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<Rating> ratings = new List<Models.Rating>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow ratingRecord in _dt.Rows)
+                {
+                    ratings.Add(new ReadRating(ratingRecord));
+                }
+            }
+
+            return ratings;
         }
 
-        // GET: api/Rating/5
-        public string Get(int id)
+        // GET: api/Rating/id
+        public string Get(string id)
         {
             return "value";
         }
 
-        // POST: api/Rating
-        public void Post([FromBody]string value)
-        {
-        }
 
         // PUT: api/Rating/5
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
-        // DELETE: api/Rating/5
-        public void Delete(int id)
+        public void sortRatings()
         {
+
         }
+
     }
 }
