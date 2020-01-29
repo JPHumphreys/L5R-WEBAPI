@@ -70,17 +70,17 @@ namespace L5R_API.Controllers
 
             if (result > 0)
             {
-                if(usernameCheck(value.username) == "true")
+                if(usernameCheck(value.username, value.id, value.clan) == "true")
                 {
                     //username already exists on that card rating
                     //overwrite rating
-                    overwriteRating(value.id, value.clan, value.rating);
+                    removeOldRating(value.username, value.id, value.clan);//PUT
                 }
                 else
                 {
                     //username does not exist on that card rating
                     //add rating
-                    addRating(value.id, value.clan, value.rating);
+                    addRating(value.id, value.clan, value.rating);//POST
                 }
                 return "true";
             }
@@ -100,19 +100,44 @@ namespace L5R_API.Controllers
         {
         }
 
-        static void addRating(string id, string clan, float rating)
+        private void addRating(string id, string clan, float rating)
         {
 
         }
 
-        static void overwriteRating(string id, string clan, float rating)
+        private void removeOldRating(string username, string id, string clan)
         {
+            //delete oldest rating that matches the three variables sent in
+            //this will be the old rating the user has made
+
+            //THEN
+            //update the cardratings table with the new values
 
         }
 
-        static string usernameCheck(string username)
+        private string usernameCheck(string username, string id, string clan)
         {
-            return "true";
+            //checks to see how many ratings with this clan there is
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            var query = "SELECT * FROM UserRatings WHERE username=" + username +
+                " AND id=" + id + " AND clan=" + clan;
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<UserRating> ratings = new List<Models.UserRating>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 1)//there is more than 1
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
+
         }
     }
 }
