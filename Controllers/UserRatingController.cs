@@ -58,18 +58,18 @@ namespace L5R_API.Controllers
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
 
-            //delete old query
-            var query = "DELETE FROM UserRatings WHERE username= '" + value.username + "'"
-                + " AND id='" + value.id + "' AND clan='" + value.clan + "'";
+            //check if a rating from that user already exists
+            int noOfRatings = checkExisting(value.username, value.id, value.clan);
+
+            if(noOfRatings > 0)
+            {
+                //delete it
+                removeOldRating(value.username, value.id, value.clan);
+            }
+
+            //insert new/'new' query
+            var query = "INSERT INTO UserRatings (username, id, clan, rating) VALUES(@username, @id, @clan, @rating)";
             SqlCommand insertCommand = new SqlCommand(query, _con);
-
-            _con.Open();
-            int result = insertCommand.ExecuteNonQuery();
-
-            _con.Close();
-            //insert new query
-            query = "INSERT INTO UserRatings (username, id, clan, rating) VALUES(@username, @id, @clan, @rating)";
-            insertCommand = new SqlCommand(query, _con);
 
             insertCommand.Parameters.AddWithValue("@username", value.username);
             insertCommand.Parameters.AddWithValue("@id", value.id);
@@ -77,10 +77,12 @@ namespace L5R_API.Controllers
             insertCommand.Parameters.AddWithValue("@rating", value.rating);
 
             _con.Open();
-            result = insertCommand.ExecuteNonQuery();
-
+            int result = insertCommand.ExecuteNonQuery();
+            _con.Close();
             if (result > 0)
             {
+                CardRatingController cr = new CardRatingController();
+                cr.updateCard(value.id, value.rating, value.clan, noOfRatings);
                 return "true";
             }
             else
@@ -104,39 +106,38 @@ namespace L5R_API.Controllers
 
         }
 
-        private void removeOldRating(string username, string id, string clan, float rating)
+        private int checkExisting(string username, string id, string clan)
         {
-            //delete oldest rating that matches the three variables sent in
-            //this will be the old rating the user has made
-
-            //THEN
-            //update the cardratings table with the new values
-
-        }
-
-        private string usernameCheck(string username, string id, string clan)
-        {
-            //checks to see how many ratings with this clan there is
-            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM UserRatings WHERE username=" + username +
-                " AND id=" + id + " AND clan=" + clan;
+            var query = "SELECT * FROM UserRatings WHERE username= '" + username + "'"
+                + " AND id='" + id + "' AND clan='" + clan + "'";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
             };
             _adapter.Fill(_dt);
-            List<UserRating> ratings = new List<Models.UserRating>(_dt.Rows.Count);
 
-            if (_dt.Rows.Count > 1)//there is more than 1
-            {
-                return "true";
-            }
-            else
-            {
-                return "false";
-            }
-
+            return _dt.Rows.Count;
         }
+
+        private void removeOldRating(string username, string id, string clan)
+        {
+            //delete oldest rating that matches the three variables sent in
+            //this will be the old rating the user has made
+            //delete old query
+            var query = "DELETE FROM UserRatings WHERE username= '" + username + "'"
+                + " AND id='" + id + "' AND clan='" + clan + "'";
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();//not sure if i need this
+            if(result > 0)
+            {
+                //works
+                _con.Close();
+            }
+        }
+
+        
+
     }
 }
