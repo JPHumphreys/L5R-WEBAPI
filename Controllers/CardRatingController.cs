@@ -112,44 +112,46 @@ namespace L5R_API.Controllers
                     newRating = cr.ratingcrab * cr.totalvotescrab;
                     newRating += rating;
                     newRating /= cr.totalvotescrab;
-                    return;
+                    break;
                 case "crane":
                     newRating = cr.ratingcrane * cr.totalvotescrane;
                     newRating += rating;
                     newRating /= cr.totalvotescrane;
-                    return;
+                    break;
                 case "dragon":
                     newRating = cr.ratingdragon * cr.totalvotesdragon;
                     newRating += rating;
                     newRating /= cr.totalvotesdragon;
-                    return;
+                    break;
                 case "lion":
                     newRating = cr.ratinglion * cr.totalvoteslion;
                     newRating += rating;
                     newRating /= cr.totalvoteslion;
-                    return;
+                    break;
                 case "phoenix":
                     newRating = cr.ratingphoenix * cr.totalvotesphoenix;
                     newRating += rating;
                     newRating /= cr.totalvotesphoenix;
-                    return;
+                    break;
                 case "scorpion":
                     newRating = cr.ratingscorpion * cr.totalvotesscorpion;
                     newRating += rating;
                     newRating /= cr.totalvotesscorpion;
-                    return;
+                    break;
                 case "unicorn":
                     newRating = cr.ratingunicorn * cr.totalvotesunicorn;
                     newRating += rating;
                     newRating /= cr.totalvotesunicorn;
-                    return;
+                    break;
                 default:
                     //this should not happen
                     return;
             }
-            
 
-            
+            //put the new rating as the clans current rating
+            //update overall rating
+
+            float test = calculateOverallRating(cr);
 
         }
 
@@ -176,9 +178,59 @@ namespace L5R_API.Controllers
             return ratings;
         }
 
-        private float calculateOverallRating(List<CardRating> card)
+        private float calculateOverallRating(CardRating card)
         {
+            return getTotalScore(card) / getTotalVotes(card);
+        }
 
+        private float getTotalScore(CardRating card)
+        {
+            float totalScore = 0.0f;
+
+            if (card.totalvotescrab != 0)
+            {
+                totalScore += card.ratingcrab * card.totalvotescrab;
+            }
+
+            if(card.totalvotescrane != 0)
+            {
+                totalScore += card.ratingcrane * card.totalvotescrane;
+            }
+
+            if(card.totalvotesdragon != 0)
+            {
+                totalScore += card.ratingdragon * card.totalvotesdragon;
+            }
+
+            if(card.totalvoteslion != 0)
+            {
+                totalScore += card.ratinglion * card.totalvoteslion;
+            }
+
+            if(card.totalvotesphoenix != 0)
+            {
+                totalScore += card.ratingphoenix * card.totalvotesphoenix;
+            }
+
+            if(card.totalvotesscorpion != 0)
+            {
+                totalScore += card.ratingscorpion * card.totalvotesscorpion;
+            }
+
+            if(card.totalvotesunicorn != 0)
+            {
+                totalScore += card.ratingunicorn * card.totalvotesunicorn;
+            }
+
+            return totalScore;
+        }
+
+        private int getTotalVotes(CardRating card)
+        {
+            return card.totalvotescrab + card.totalvotescrane +
+                card.totalvotesdragon + card.totalvoteslion +
+                card.totalvotesphoenix + card.totalvotesscorpion +
+                card.totalvotesunicorn;
         }
 
     }
