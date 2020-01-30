@@ -501,6 +501,24 @@
             <param name="type">This is the type of the card</param>
             <returns>List of cards that match the clan,side and type of the api query</returns>
         </member>
+        <member name="M:L5R_API.Controllers.CardRatingController.Get(System.String)">
+            <summary>
+            check id for single card
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:L5R_API.Controllers.CardRatingController.updateCard(System.String,System.Single,System.String,System.Int32)">
+            <summary>
+            This is used in conjunction with posting a new userrating
+            This starts the process of adding the new value into the cardrating database
+            This also calls the update of the card effected.
+            </summary>
+            <param name="id">the ID of the card</param>
+            <param name="rating">the new rating being added to the card</param>
+            <param name="newVote">this will either be 0 or 1 and this adds a new vote to the card</param>
+            <param name="clan">The clan that the rating corresponds to</param>
+        </member>
         <member name="M:L5R_API.Controllers.UserRatingController.Post(L5R_API.Models.CreateUserRating)">
             <summary>
             This creates a new user rating.

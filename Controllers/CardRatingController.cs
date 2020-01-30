@@ -47,9 +47,27 @@ namespace L5R_API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string Get(string id)
+        public CardRating Get(string id)
         {
-            return "need to do";
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            var query = "SELECT * FROM CardRatings WHERE id='" + id + "'";
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<CardRating> ratings = new List<Models.CardRating>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow ratingRecord in _dt.Rows)
+                {
+                    ratings.Add(new ReadCardRating(ratingRecord));
+                }
+            }
+
+            return ratings[0];
         }
 
         // PUT: api/CardRating/id
@@ -75,12 +93,91 @@ namespace L5R_API.Controllers
             }
 
             //organise the database
-            organiseTheData(id, clan, rating);
+            addTheData(id, clan, rating);
         }
 
-        private void organiseTheData(string id, string clan, float rating)
+        private void addTheData(string id, string clan, float rating)
         {
-            //
+            //get the current values
+            CardRating cr = new CardRating();
+            cr = Get(id);
+            float newRating = 0.0f;
+            
+            switch (clan)
+            {
+                //times the votes by the rating
+                //add the rating 
+                //divide back down and PUT that as the new rating
+                case "crab":
+                    newRating = cr.ratingcrab * cr.totalvotescrab;
+                    newRating += rating;
+                    newRating /= cr.totalvotescrab;
+                    return;
+                case "crane":
+                    newRating = cr.ratingcrane * cr.totalvotescrane;
+                    newRating += rating;
+                    newRating /= cr.totalvotescrane;
+                    return;
+                case "dragon":
+                    newRating = cr.ratingdragon * cr.totalvotesdragon;
+                    newRating += rating;
+                    newRating /= cr.totalvotesdragon;
+                    return;
+                case "lion":
+                    newRating = cr.ratinglion * cr.totalvoteslion;
+                    newRating += rating;
+                    newRating /= cr.totalvoteslion;
+                    return;
+                case "phoenix":
+                    newRating = cr.ratingphoenix * cr.totalvotesphoenix;
+                    newRating += rating;
+                    newRating /= cr.totalvotesphoenix;
+                    return;
+                case "scorpion":
+                    newRating = cr.ratingscorpion * cr.totalvotesscorpion;
+                    newRating += rating;
+                    newRating /= cr.totalvotesscorpion;
+                    return;
+                case "unicorn":
+                    newRating = cr.ratingunicorn * cr.totalvotesunicorn;
+                    newRating += rating;
+                    newRating /= cr.totalvotesunicorn;
+                    return;
+                default:
+                    //this should not happen
+                    return;
+            }
+            
+
+            
+
+        }
+
+        private List<CardRating> GetQuery(string query)
+        {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<CardRating> ratings = new List<Models.CardRating>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow ratingRecord in _dt.Rows)
+                {
+                    ratings.Add(new ReadCardRating(ratingRecord));
+                }
+            }
+
+            return ratings;
+        }
+
+        private float calculateOverallRating(List<CardRating> card)
+        {
 
         }
 
