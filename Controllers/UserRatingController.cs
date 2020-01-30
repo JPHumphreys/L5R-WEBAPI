@@ -57,8 +57,19 @@ namespace L5R_API.Controllers
         public string Post([FromBody]CreateUserRating value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
-            var query = "INSERT INTO UserRatings (username, id, clan, rating) VALUES(@username, @id, @clan, @rating)";
+
+            //delete old query
+            var query = "DELETE FROM UserRatings WHERE username= '" + value.username + "'"
+                + " AND id='" + value.id + "' AND clan='" + value.clan + "'";
             SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+
+            _con.Close();
+            //insert new query
+            query = "INSERT INTO UserRatings (username, id, clan, rating) VALUES(@username, @id, @clan, @rating)";
+            insertCommand = new SqlCommand(query, _con);
 
             insertCommand.Parameters.AddWithValue("@username", value.username);
             insertCommand.Parameters.AddWithValue("@id", value.id);
@@ -66,22 +77,10 @@ namespace L5R_API.Controllers
             insertCommand.Parameters.AddWithValue("@rating", value.rating);
 
             _con.Open();
-            int result = insertCommand.ExecuteNonQuery();
+            result = insertCommand.ExecuteNonQuery();
 
             if (result > 0)
             {
-                if(usernameCheck(value.username, value.id, value.clan) == "true")
-                {
-                    //username already exists on that card rating
-                    //overwrite rating
-                    removeOldRating(value.username, value.id, value.clan);//PUT
-                }
-                else
-                {
-                    //username does not exist on that card rating
-                    //add rating
-                    addRating(value.id, value.clan, value.rating);//POST
-                }
                 return "true";
             }
             else
@@ -95,8 +94,8 @@ namespace L5R_API.Controllers
         {
         }
 
-        // DELETE: api/UserRating/5
-        public void Delete(int id)
+        // DELETE: api/UserRating/username
+        public void Delete(string username)
         {
         }
 
@@ -105,7 +104,7 @@ namespace L5R_API.Controllers
 
         }
 
-        private void removeOldRating(string username, string id, string clan)
+        private void removeOldRating(string username, string id, string clan, float rating)
         {
             //delete oldest rating that matches the three variables sent in
             //this will be the old rating the user has made

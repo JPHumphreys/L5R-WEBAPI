@@ -486,6 +486,29 @@
             This Controller is for the L5R cards.
             </summary>
         </member>
+        <member name="M:L5R_API.Controllers.CardController.Get">
+            <summary>
+            This is a query to return all the cards in the DB
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:L5R_API.Controllers.CardController.Get(System.String,System.String,System.String)">
+            <summary>
+                This is used for the cards.html page of the website
+            </summary>
+            <param name="clan">This is the clan of the card</param>
+            <param name="side">This is the deck of the card</param>
+            <param name="type">This is the type of the card</param>
+            <returns>List of cards that match the clan,side and type of the api query</returns>
+        </member>
+        <member name="M:L5R_API.Controllers.UserRatingController.Post(L5R_API.Models.CreateUserRating)">
+            <summary>
+            This creates a new user rating.
+            It containts the username which is used to check if they have voted on the card before
+            </summary>
+            <param name="value"></param>
+            <returns>true/false</returns>
+        </member>
         <member name="T:L5R_API.Models.Card">
             <summary>
             Represents one card within the database
@@ -625,6 +648,114 @@
             This reads the rows and places the values within the card object.
             </summary>
             <param name="row"></param>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.id">
+            <summary>
+            This is the id that is shared with card id's - this is a foreign key
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.overallrating">
+            <summary>
+            this a calculation:
+            (rating + votes) + n + n / total of all votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingcrab">
+            <summary>
+            The rating for the crab matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingcrane">
+            <summary>
+            The rating for the crane matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingdragon">
+            <summary>
+            The rating for the dragon matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratinglion">
+            <summary>
+            The rating for the lion matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingphoenix">
+            <summary>
+            The rating for the phoenix matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingscorpion">
+            <summary>
+            The rating for the scorpion matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.ratingunicorn">
+            <summary>
+            The rating for the unicorn matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotescrab">
+            <summary>
+            The total votes for all crab votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotescrane">
+            <summary>
+            The total votes for all crane votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotesdragon">
+            <summary>
+            the total votes for all dragon votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvoteslion">
+            <summary>
+            the total votes for all lion votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotesphoenix">
+            <summary>
+            the total votes for all phoenix votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotesscorpion">
+            <summary>
+            the total votes for all scorpion votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.CardRating.totalvotesunicorn">
+            <summary>
+            the total votes for all unicron votes
+            </summary>
+        </member>
+        <member name="T:L5R_API.Models.UserRating">
+            <summary>
+            This is a many to many relationship table
+            It checks whether a rating from a user has already been done.
+            It it where the cardRating table gets totalvotes from.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.UserRating.username">
+            <summary>
+            This is a foreign key to the Users table
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.UserRating.id">
+            <summary>
+            This is a foreign key to the Cards table
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.UserRating.clan">
+            <summary>
+            This is the clan the vote is in respect to
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.UserRating.rating">
+            <summary>
+            This is the rating that the user selected.
+            </summary>
         </member>
     </members>
 </doc>
