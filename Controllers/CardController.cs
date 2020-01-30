@@ -21,17 +21,6 @@ namespace L5R_API.Controllers
 
         //[Route("api/Card/all/{id}")]//{id}/{type}//string is assumed type
         //[HttpGet]//come between for multiple
-        //public List<string> GetCardIds()
-        //{
-        //    List<string> idList = new List<string>();
-
-        //    foreach(var c in cards)
-        //    {
-        //        idList.Add(c.id);
-        //    }
-
-        //    return idList;
-        //}
 
 
         // GET: api/Card

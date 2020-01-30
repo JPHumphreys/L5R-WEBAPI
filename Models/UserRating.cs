@@ -40,7 +40,10 @@ namespace L5R_API.Models
     {
         public ReadUserRating(DataRow row)
         {
-
+            username = row["username"].ToString();
+            id = row["id"].ToString();
+            clan = row["clan"].ToString();
+            rating = Convert.ToSingle(row["rating"]);
         }
     }
 }
