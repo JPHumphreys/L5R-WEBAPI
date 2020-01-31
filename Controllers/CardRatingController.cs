@@ -95,8 +95,8 @@ namespace L5R_API.Controllers
             switch (clan)
             {
                 //1/times the votes by the rating --(IF NOT 0)
-                //2/add the rating 
-                //3/add the voting
+                //2/add the rating (plus / minus)
+                //3/add the voting (plus / minus)
                 //4/divide back down and PUT that as the new rating --(IF NOT 0)
                 case "crab":
                     if(cr.totalvotescrab != 0)
