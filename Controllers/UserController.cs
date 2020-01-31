@@ -41,12 +41,12 @@ namespace L5R_API.Controllers
             return users;
         }
 
-        // GET: api/User/cardname
-        public List<User> Get(string id)
+        // GET: api/User/username
+        public List<User> Get(string username)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM Users WHERE username= '" + id + "'";
+            var query = "SELECT * FROM Users WHERE username= '" + username + "'";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
