@@ -41,8 +41,8 @@ namespace L5R_API.Controllers
             return ratings;
         }
 
-        // GET: api/UserRating/5
-        public string Get(int id)
+        // GET: api/UserRating/username
+        public string Get(string username)
         {
             return "value";
         }
@@ -57,14 +57,36 @@ namespace L5R_API.Controllers
         public string Post([FromBody]CreateUserRating value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
-
+            CardRatingController cr = new CardRatingController();
             //check if a rating from that user already exists
             int noOfRatings = checkExisting(value.username, value.id, value.clan);
 
             if(noOfRatings > 0)
             {
-                //delete it
+                //get the values of the old vote
+                float oldRating = getOldRating(value.username, value.id, value.clan);
+                //remove them from the cardrating table
+                noOfRatings = -1;
+                if (cr.updateCard(value.id, -oldRating, value.clan, noOfRatings) == "false")
+                {
+                    return "false";
+                }
+                //remove it from userrating table
                 removeOldRating(value.username, value.id, value.clan);
+                noOfRatings = 1;
+                /*
+                 * this means that we dont need to add a new totalvote to the
+                 * existing id in the card rating table.
+                */
+            }
+            else
+            {
+                noOfRatings = 1;
+                /*
+                 * Because there is no exisiting vote from that user
+                 * we need to add a value to the total number of votes
+                 * for that id in the cardratings table
+                 */
             }
 
             //insert new/'new' query
@@ -81,9 +103,14 @@ namespace L5R_API.Controllers
             _con.Close();
             if (result > 0)
             {
-                CardRatingController cr = new CardRatingController();
-                cr.updateCard(value.id, value.rating, value.clan, noOfRatings);
-                return "true";
+                if (cr.updateCard(value.id, value.rating, value.clan, noOfRatings) == "true")
+                {
+                    return "true";
+                }
+                else
+                {
+                    return "false";
+                }
             }
             else
             {
@@ -104,6 +131,29 @@ namespace L5R_API.Controllers
         private void addRating(string id, string clan, float rating)
         {
 
+        }
+
+        private float getOldRating(string username, string id, string clan)
+        {
+            DataTable _dt = new DataTable();
+            var query = "SELECT * FROM UserRatings WHERE username= '" + username + "'"
+                + " AND id='" + id + "' AND clan='" + clan + "'";
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+
+            List<UserRating> ratings = new List<Models.UserRating>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow ratingRecord in _dt.Rows)
+                {
+                    ratings.Add(new ReadUserRating(ratingRecord));
+                }
+            }
+            return ratings[0].rating;
         }
 
         private int checkExisting(string username, string id, string clan)

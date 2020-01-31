@@ -85,73 +85,190 @@ namespace L5R_API.Controllers
         /// <param name="rating">the new rating being added to the card</param>
         /// <param name="newVote">this will either be 0 or 1 and this adds a new vote to the card</param>
         /// <param name="clan">The clan that the rating corresponds to</param>
-        public void updateCard(string id, float rating, string clan, int newVote)
-        {
-            if(newVote > 0)
-            {
-                //add the new vote with a put
-            }
-
-            //organise the database
-            addTheData(id, clan, rating);
-        }
-
-        private void addTheData(string id, string clan, float rating)
+        public string updateCard(string id, float rating, string clan, int newVote)
         {
             //get the current values
             CardRating cr = new CardRating();
             cr = Get(id);
-            float newRating = 0.0f;
-            
+            float ratingTotal = 0.0f;
+
             switch (clan)
             {
-                //times the votes by the rating
-                //add the rating 
-                //divide back down and PUT that as the new rating
+                //1/times the votes by the rating --(IF NOT 0)
+                //2/add the rating 
+                //3/add the voting
+                //4/divide back down and PUT that as the new rating --(IF NOT 0)
                 case "crab":
-                    newRating = cr.ratingcrab * cr.totalvotescrab;
-                    newRating += rating;
-                    newRating /= cr.totalvotescrab;
+                    if(cr.totalvotescrab != 0)
+                    {
+                        ratingTotal = cr.ratingcrab * cr.totalvotescrab;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotescrab += newVote;
+                    if(cr.totalvotescrab != 0)
+                    {
+                        cr.ratingcrab = ratingTotal / cr.totalvotescrab;
+                    }
+                    else
+                    {
+                        cr.ratingcrab = 0;
+                    }
                     break;
                 case "crane":
-                    newRating = cr.ratingcrane * cr.totalvotescrane;
-                    newRating += rating;
-                    newRating /= cr.totalvotescrane;
+                    if(cr.totalvotescrane != 0)
+                    {
+                        ratingTotal = cr.ratingcrane * cr.totalvotescrane;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotescrane += newVote;
+                    if(cr.totalvotescrane != 0)
+                    {
+                        cr.ratingcrane = ratingTotal / cr.totalvotescrane;
+                    }
+                    else
+                    {
+                        cr.ratingcrane = 0;
+                    }
                     break;
                 case "dragon":
-                    newRating = cr.ratingdragon * cr.totalvotesdragon;
-                    newRating += rating;
-                    newRating /= cr.totalvotesdragon;
+                    if(cr.totalvotesdragon != 0)
+                    {
+                        ratingTotal = cr.ratingdragon * cr.totalvotesdragon;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotesdragon += newVote;
+                    if(cr.totalvotesdragon != 0)
+                    {
+                        cr.ratingdragon = ratingTotal / cr.totalvotesdragon;
+                    }
+                    else
+                    {
+                        cr.ratingdragon = 0;
+                    }
                     break;
                 case "lion":
-                    newRating = cr.ratinglion * cr.totalvoteslion;
-                    newRating += rating;
-                    newRating /= cr.totalvoteslion;
+                    if(cr.totalvoteslion != 0)
+                    {
+                        ratingTotal = cr.ratinglion * cr.totalvoteslion;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvoteslion += newVote;
+                    if(cr.totalvoteslion != 0)
+                    {
+                        cr.ratinglion = ratingTotal / cr.totalvoteslion;
+                    }
+                    else
+                    {
+                        cr.ratinglion = 0;
+                    }
                     break;
                 case "phoenix":
-                    newRating = cr.ratingphoenix * cr.totalvotesphoenix;
-                    newRating += rating;
-                    newRating /= cr.totalvotesphoenix;
+                    if(cr.totalvotesphoenix != 0)
+                    {
+                        ratingTotal = cr.ratingphoenix * cr.totalvotesphoenix;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotesphoenix += newVote;
+                    if(cr.totalvotesphoenix != 0)
+                    {
+                        cr.ratingphoenix = ratingTotal / cr.totalvotesphoenix;
+                    }
+                    else
+                    {
+                        cr.ratingphoenix = 0;
+                    }
                     break;
                 case "scorpion":
-                    newRating = cr.ratingscorpion * cr.totalvotesscorpion;
-                    newRating += rating;
-                    newRating /= cr.totalvotesscorpion;
+                    if(cr.totalvotesscorpion != 0)
+                    {
+                        ratingTotal = cr.ratingscorpion * cr.totalvotesscorpion;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotesscorpion += newVote;
+                    if(cr.totalvotesscorpion != 0)
+                    {
+                        cr.ratingscorpion = ratingTotal / cr.totalvotesscorpion;
+                    }
+                    else
+                    {
+                        cr.ratingscorpion = 0;
+                    }
                     break;
                 case "unicorn":
-                    newRating = cr.ratingunicorn * cr.totalvotesunicorn;
-                    newRating += rating;
-                    newRating /= cr.totalvotesunicorn;
+                    if (cr.totalvotesunicorn != 0)
+                    {
+                        ratingTotal = cr.ratingunicorn * cr.totalvotesunicorn;
+                    }
+                    ratingTotal += rating;
+                    cr.totalvotesunicorn += newVote;
+                    if(cr.totalvotesunicorn != 0)
+                    {
+                        cr.ratingunicorn = ratingTotal / cr.totalvotesunicorn;
+                    }
+                    else
+                    {
+                        cr.ratingunicorn = 0;
+                    }
                     break;
                 default:
                     //this should not happen
-                    return;
+                    return "false";
             }
 
             //put the new rating as the clans current rating
             //update overall rating
 
-            float test = calculateOverallRating(cr);
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            var query = "UPDATE CardRatings SET overallrating=@overallrating," +
+
+                "ratingcrab=@ratingcrab," +
+                "ratingcrane=@ratingcrane," +
+                "ratingdragon=@ratingdragon," +
+                "ratinglion=@ratinglion," +
+                "ratingphoenix=@ratingphoenix," +
+                "ratingscorpion=@ratingscorpion," +
+                "ratingunicorn=@ratingunicorn," +
+
+                "totalvotescrab=@totalvotescrab," +
+                "totalvotescrane=@totalvotescrane," +
+                "totalvotesdragon=@totalvotesdragon," +
+                "totalvoteslion=@totalvoteslion," +
+                "totalvotesphoenix=@totalvotesphoenix," +
+                "totalvotesscorpion=@totalvotesscorpion," +
+                "totalvotesunicorn=@totalvotesunicorn" +
+
+                " WHERE id= '" + id + "'";
+            SqlCommand insertCommand = new SqlCommand(query, _con);
+
+            insertCommand.Parameters.AddWithValue("@overallrating", calculateOverallRating(cr));
+
+            insertCommand.Parameters.AddWithValue("@ratingcrab", cr.ratingcrab);
+            insertCommand.Parameters.AddWithValue("@ratingcrane", cr.ratingcrane);
+            insertCommand.Parameters.AddWithValue("@ratingdragon", cr.ratingdragon);
+            insertCommand.Parameters.AddWithValue("@ratinglion", cr.ratinglion);
+            insertCommand.Parameters.AddWithValue("@ratingphoenix", cr.ratingphoenix);
+            insertCommand.Parameters.AddWithValue("@ratingscorpion", cr.ratingscorpion);
+            insertCommand.Parameters.AddWithValue("@ratingunicorn", cr.ratingunicorn);
+
+            insertCommand.Parameters.AddWithValue("@totalvotescrab", cr.totalvotescrab);
+            insertCommand.Parameters.AddWithValue("@totalvotescrane", cr.totalvotescrane);
+            insertCommand.Parameters.AddWithValue("@totalvotesdragon", cr.totalvotesdragon);
+            insertCommand.Parameters.AddWithValue("@totalvoteslion", cr.totalvoteslion);
+            insertCommand.Parameters.AddWithValue("@totalvotesphoenix", cr.totalvotesphoenix);
+            insertCommand.Parameters.AddWithValue("@totalvotesscorpion", cr.totalvotesscorpion);
+            insertCommand.Parameters.AddWithValue("@totalvotesunicorn", cr.totalvotesunicorn);
+
+            _con.Open();
+            int result = insertCommand.ExecuteNonQuery();
+            if (result > 0)
+            {
+                _con.Close();
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
 
         }
 
@@ -180,7 +297,16 @@ namespace L5R_API.Controllers
 
         private float calculateOverallRating(CardRating card)
         {
-            return getTotalScore(card) / getTotalVotes(card);
+            float totalScore = getTotalScore(card);
+            int totalVotes = getTotalVotes(card);
+            if(totalScore == 0 || totalVotes == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return totalScore / totalVotes;
+            }
         }
 
         private float getTotalScore(CardRating card)
