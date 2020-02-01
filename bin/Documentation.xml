@@ -519,6 +519,13 @@
             <param name="newVote">this will either be 0 or 1 and this adds a new vote to the card</param>
             <param name="clan">The clan that the rating corresponds to</param>
         </member>
+        <member name="M:L5R_API.Controllers.DeckController.Get(System.String)">
+            <summary>
+            Gets ALL decks by a username
+            </summary>
+            <param name="username"></param>
+            <returns>List of deck objects that are sorted in the front end</returns>
+        </member>
         <member name="M:L5R_API.Controllers.UserRatingController.Post(L5R_API.Models.CreateUserRating)">
             <summary>
             This creates a new user rating.
@@ -667,6 +674,221 @@
             </summary>
             <param name="row"></param>
         </member>
+        <member name="T:L5R_API.Models.RatingAndCard">
+            <summary>
+            This is for a joined table that combines a card and its cardrating
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.id">
+            <summary>
+            This is primary key that is used in conjunction with the ratings table.
+            This is the ID of the card that is in the context of name-name. EG: shrewd yasuki = shrewd-yasuki
+            Any apostrophes are replaced with dashes. EG: Mountain's Anvil Castle = mountain-s-anvil-castle
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.clan">
+            <summary>
+            This is the clan that the card corresponds to: this includes the main clans and neutral type
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.cost">
+            <summary>
+            This is the card cost in fate.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.decklimit">
+            <summary>
+            How many of the cards are legally allowed to be in the decks.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.element">
+            <summary>
+            This is used to categorize provinces into the different types
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.fate">
+            <summary>
+            This is how much fate a stronghold will yeild a turn.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.glory">
+            <summary>
+            This is the glory value of a card (if it has one)
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.honor">
+            <summary>
+            This is how much honor you will start the game with.
+            This is used for stronghold cards only.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.imglocation">
+            <summary>
+            This is the image location from the official l5r website.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.influencecost">
+            <summary>
+            This is the influence cost that is related to the conflict card. (if it has one)
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.influencepool">
+            <summary>
+            This is the influence pool that your stronghold provides.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.isrestricted">
+            <summary>
+            This indicates whether the card is restricted
+            The restricted list is derived from the official rules guide.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.military">
+            <summary>
+            This is the military value on the character card.
+            if not applicable - put a 0.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.militarybonus">
+            <summary>
+            This is the added bonus an attachment provides a character.
+            if not applicable - put a NULL
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.name">
+            <summary>
+            This is the name of the card as written on the card
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.political">
+            <summary>
+            This is the political value on the character
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.politicalbonus">
+            <summary>
+            This is the political bonus an attachment provides a character.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.rolerestriction">
+            <summary>
+            This indicates whether a card is restricted to 'KEEPER' or 'SEEKER' - null if not
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.side">
+            <summary>
+            This indicates which deck the card lies within.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.strength">
+            <summary>
+            This indicates the strength of the province.
+            IE how much above your opponent you need to be to break the province.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.strengthbonus">
+            <summary>
+            This applies to stronghold provinces.
+            It indicates the added strength bonus it provides on top of the province it is above.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.text">
+            <summary>
+            This is the card text
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.type">
+            <summary>
+            This is the card type.
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.unicity">
+            <summary>
+            This indicates whether the card is unique or not.
+            TRUE / FALSE
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.overallrating">
+            <summary>
+            this a calculation:
+            (rating + votes) + n + n / total of all votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingcrab">
+            <summary>
+            The rating for the crab matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingcrane">
+            <summary>
+            The rating for the crane matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingdragon">
+            <summary>
+            The rating for the dragon matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratinglion">
+            <summary>
+            The rating for the lion matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingphoenix">
+            <summary>
+            The rating for the phoenix matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingscorpion">
+            <summary>
+            The rating for the scorpion matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.ratingunicorn">
+            <summary>
+            The rating for the unicorn matchup
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotescrab">
+            <summary>
+            The total votes for all crab votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotescrane">
+            <summary>
+            The total votes for all crane votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotesdragon">
+            <summary>
+            the total votes for all dragon votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvoteslion">
+            <summary>
+            the total votes for all lion votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotesphoenix">
+            <summary>
+            the total votes for all phoenix votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotesscorpion">
+            <summary>
+            the total votes for all scorpion votes
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.RatingAndCard.totalvotesunicorn">
+            <summary>
+            the total votes for all unicron votes
+            </summary>
+        </member>
+        <member name="T:L5R_API.Models.ReadRatingAndCard">
+            <summary>
+            Reads in the values from the joined table and stores them into an object
+            </summary>
+        </member>
         <member name="P:L5R_API.Models.CardRating.id">
             <summary>
             This is the id that is shared with card id's - this is a foreign key
@@ -746,6 +968,36 @@
         <member name="P:L5R_API.Models.CardRating.totalvotesunicorn">
             <summary>
             the total votes for all unicron votes
+            </summary>
+        </member>
+        <member name="T:L5R_API.Models.Deck">
+            <summary>
+            This is the deck objects
+            It is a many to many table that holds the
+            username of the user that created the deck
+            id of the card that is taken from the cards table
+            name of the deck
+            quantity of the card in that deck
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Deck.username">
+            <summary>
+            This is the username that is associated with the deck
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Deck.id">
+            <summary>
+            This is the card id that is contained within the deck
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Deck.name">
+            <summary>
+            This is the deckname
+            </summary>
+        </member>
+        <member name="P:L5R_API.Models.Deck.quantity">
+            <summary>
+            This is the quantity of the card within the deck
             </summary>
         </member>
         <member name="T:L5R_API.Models.UserRating">

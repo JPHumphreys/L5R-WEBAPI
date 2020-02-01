@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace L5R_API.Controllers
 {
     /// <summary>
     /// This Controller is for the L5R cards.
     /// </summary>
+    //[EnableCors(origins: "http://localhost:56390/api/card", headers:"*",methods:"*")]
     public class CardController : ApiController
     {
         //declare sql connection

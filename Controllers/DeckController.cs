@@ -24,11 +24,18 @@ namespace L5R_API.Controllers
         //}
 
         // GET: api/Deck/username
+        /// <summary>
+        /// Gets ALL decks by a username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>List of deck objects that are sorted in the front end</returns>
         public List<Deck> Get(string username)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM Decks WHERE username= '" + username + "'";
+            var query = "SELECT * FROM Decks WHERE username= '" + username + "'" +
+                " ORDER BY name";
+            //order by name so that the cards in the decks are with eachother
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
@@ -49,11 +56,6 @@ namespace L5R_API.Controllers
 
         // POST: api/Deck
         public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Deck/5
-        public void Put(int id, [FromBody]string value)
         {
         }
 
