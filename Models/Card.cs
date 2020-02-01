@@ -390,7 +390,7 @@ namespace L5R_API.Models
     /// </summary>
     public class ReadRatingAndCard : RatingAndCard
     {
-        ReadRatingAndCard(DataRow row)
+        public ReadRatingAndCard(DataRow row)
         {
             id = row["id"].ToString();//primary key
             clan = row["clan"].ToString();

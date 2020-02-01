@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace L5R_API.Controllers
 {
     /// <summary>
     /// This Controller is for the L5R cards.
     /// </summary>
+    //[EnableCors(origins: "http://localhost:56390/api/card", headers:"*",methods:"*")]
     public class CardController : ApiController
     {
         //declare sql connection
@@ -28,23 +30,25 @@ namespace L5R_API.Controllers
         /// This is a query to return all the cards in the DB
         /// </summary>
         /// <returns></returns>
-        public List<Card> Get()
+        public List<RatingAndCard> Get()
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM Cards";
+            var query = "SELECT * " +
+                        " FROM Cards" +
+                        " INNER JOIN CardRatings ON Cards.id = CardRatings.id; ";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
             };
             _adapter.Fill(_dt);
-            List<Card> cards = new List<Models.Card>(_dt.Rows.Count);
+            List<RatingAndCard> cards = new List<Models.RatingAndCard>(_dt.Rows.Count);
 
             if (_dt.Rows.Count > 0)
             {
                 foreach (DataRow cardRecord in _dt.Rows)
                 {
-                    cards.Add(new ReadCard(cardRecord));
+                    cards.Add(new ReadRatingAndCard(cardRecord));
                 }
             }
 
