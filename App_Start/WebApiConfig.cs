@@ -20,7 +20,7 @@ namespace L5R_API
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            EnableCorsAttribute cors = new EnableCorsAttribute("*","*","*");//chanage * to website after testing
+            EnableCorsAttribute cors = new EnableCorsAttribute("*","*","GET, POST, DELETE, PUT");//chanage * to website after testing
             config.EnableCors(cors);
         }
     }

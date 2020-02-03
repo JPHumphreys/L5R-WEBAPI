@@ -526,6 +526,13 @@
             <param name="username"></param>
             <returns>List of deck objects that are sorted in the front end</returns>
         </member>
+        <member name="M:L5R_API.Controllers.UserController.Get(System.String)">
+            <summary>
+            gets a specific username
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
         <member name="M:L5R_API.Controllers.UserRatingController.Post(L5R_API.Models.CreateUserRating)">
             <summary>
             This creates a new user rating.

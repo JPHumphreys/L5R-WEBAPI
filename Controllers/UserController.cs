@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace L5R_API.Controllers
 {
@@ -18,6 +19,7 @@ namespace L5R_API.Controllers
         private SqlDataAdapter _adapter;
 
         // GET: api/User
+        
         public List<User> Get()
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
@@ -30,9 +32,9 @@ namespace L5R_API.Controllers
             _adapter.Fill(_dt);
             List<User> users = new List<Models.User>(_dt.Rows.Count);
 
-            if(_dt.Rows.Count > 0)
+            if (_dt.Rows.Count > 0)
             {
-                foreach(DataRow userRecord in _dt.Rows)
+                foreach (DataRow userRecord in _dt.Rows)
                 {
                     users.Add(new ReadUser(userRecord));
                 }
@@ -42,11 +44,18 @@ namespace L5R_API.Controllers
         }
 
         // GET: api/User/username
-        public List<User> Get(string username)
+        /// <summary>
+        /// gets a specific username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        //[Route("api/User/{id}")]
+        [EnableCors(origins: "*", headers: "*",methods:"*")]
+        public List<User> Get(string id)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
             DataTable _dt = new DataTable();
-            var query = "SELECT * FROM Users WHERE username= '" + username + "'";
+            var query = "SELECT * FROM Users WHERE username= '" + id + "'";
             _adapter = new SqlDataAdapter
             {
                 SelectCommand = new SqlCommand(query, _con)
@@ -90,6 +99,7 @@ namespace L5R_API.Controllers
         }
 
         // PUT: api/User/name
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public string Put(string id, [FromBody]CreateUser value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
@@ -111,7 +121,8 @@ namespace L5R_API.Controllers
             }
         }
 
-        // DELETE: api/User/5
+        // DELETE: api/User/id
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public string Delete(string id)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
