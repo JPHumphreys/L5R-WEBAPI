@@ -99,6 +99,7 @@ namespace L5R_API.Controllers
         }
 
         // PUT: api/User/name
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public string Put(string id, [FromBody]CreateUser value)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
@@ -120,11 +121,12 @@ namespace L5R_API.Controllers
             }
         }
 
-        // DELETE: api/User/username
-        public string Delete(string username)
+        // DELETE: api/User/id
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public string Delete(string id)
         {
             _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
-            var query = "DELETE FROM Users WHERE username= '" + username + "'";
+            var query = "DELETE FROM Users WHERE username= '" + id + "'";
             SqlCommand insertCommand = new SqlCommand(query, _con);
 
             _con.Open();
