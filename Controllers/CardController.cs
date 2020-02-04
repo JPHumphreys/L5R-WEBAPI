@@ -54,6 +54,35 @@ namespace L5R_API.Controllers
 
             return cards;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<RatingAndCard> Get(string id)
+        {
+            _con = new SqlConnection("Server= localhost; Database=l5r; Integrated Security=True;");
+            DataTable _dt = new DataTable();
+            var query = "SELECT * " +
+                        " FROM Cards" +
+                        " INNER JOIN CardRatings ON Cards.id = CardRatings.id WHERE Cards.id='" +id + "'";
+            _adapter = new SqlDataAdapter
+            {
+                SelectCommand = new SqlCommand(query, _con)
+            };
+            _adapter.Fill(_dt);
+            List<RatingAndCard> cards = new List<Models.RatingAndCard>(_dt.Rows.Count);
+
+            if (_dt.Rows.Count > 0)
+            {
+                foreach (DataRow cardRecord in _dt.Rows)
+                {
+                    cards.Add(new ReadRatingAndCard(cardRecord));
+                }
+            }
+
+            return cards;
+        }
 
         // GET: api/Card/clan/side/type
         /// <summary>

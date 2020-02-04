@@ -492,6 +492,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:L5R_API.Controllers.CardController.Get(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:L5R_API.Controllers.CardController.Get(System.String,System.String,System.String)">
             <summary>
                 This is used for the cards.html page of the website
